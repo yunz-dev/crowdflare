@@ -13,9 +13,9 @@ COPY scripts/start.sh /usr/local/bin/start.sh
 RUN chmod +x /usr/local/bin/start.sh
 
 RUN apk add --no-cache curl sudo && \
-    curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb && \
-    dpkg -i cloudflared.deb && \
-    rm cloudflared.deb && \
+    curl -L --output cloudflared-linux-amd64 https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 && \
+    chmod +x cloudflared-linux-amd64 && \
+    mv cloudflared-linux-amd64 /usr/local/bin/cloudflared && \
     apk del curl sudo
 
 FROM alpine:latest
@@ -23,6 +23,8 @@ FROM alpine:latest
 WORKDIR /app
 
 COPY --from=builder /app/server .
+
+COPY --from=builder /usr/local/bin/cloudflared /usr/local/bin/cloudflared
 
 EXPOSE 8080
 
