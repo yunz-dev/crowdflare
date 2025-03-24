@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/yunz-dev/crowdflare/internal/handlers"
+	"github.com/yunz-dev/crowdflare/internal/db"
 )
 
 // HeartHandler checks if the server is running.
@@ -17,6 +18,7 @@ func HeartHandler(w http.ResponseWriter, r *http.Request) {
 
 
 func main() {
+    db.ConnectDB()
   	staticDir := "../../web/static"
 	  fs := http.FileServer(http.Dir(staticDir))
     http.Handle("/static/", http.StripPrefix("/static/", fs))
