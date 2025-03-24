@@ -7,6 +7,8 @@ L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
 }).addTo(map);
 
 map.on('click', function(e) {
-    console.log(e.latlng.lat)
-    console.log(e.latlng.lng)
+    console.log(e.latlng.lat);
+    console.log(e.latlng.lng);
+    popup = document.getElementById("popup");
+    popup.classList.toggle("hidden");
 })
