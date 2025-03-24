@@ -51,6 +51,7 @@
             pkgs.gopls
             pkgs.gnumake
             pkgs.mysql84
+            pkgs.tailwindcss
           ];
         };
       });
