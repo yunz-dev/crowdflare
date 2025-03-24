@@ -12,11 +12,11 @@ RUN go build -o server cmd/server/main.go
 COPY scripts/start.sh /usr/local/bin/start.sh
 RUN chmod +x /usr/local/bin/start.sh
 
-RUN apt-get update && apt-get install -y curl sudo && \
+RUN apk add --no-cache curl sudo && \
     curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb && \
     dpkg -i cloudflared.deb && \
     rm cloudflared.deb && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+    apk del curl sudo
 
 FROM alpine:latest
 
