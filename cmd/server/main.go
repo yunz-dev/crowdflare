@@ -2,8 +2,11 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"os"
+
+	"github.com/yunz-dev/crowdflare/internal/handlers"
 )
 
 // HeartHandler checks if the server is running.
@@ -12,16 +15,18 @@ func HeartHandler(w http.ResponseWriter, r *http.Request) {
     fmt.Fprintf(w, "Server is up and running!") // Response message
 }
 
+
 func main() {
   	staticDir := "../../web/static"
 	  fs := http.FileServer(http.Dir(staticDir))
     http.Handle("/static/", http.StripPrefix("/static/", fs))
     http.HandleFunc("/heart", HeartHandler)
+    http.HandleFunc("/", handlers.LandingPage)
 
     // Start the server
     fmt.Println("Starting server on :8080...")
     if err := http.ListenAndServe(":8080", nil); err != nil {
-        fmt.Printf("Error starting server: %v\n", err)
+        log.Fatal("Error starting server: %v\n", err)
     }
   os.Exit(1)
 }
