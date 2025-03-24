@@ -1,0 +1,33 @@
+<header class="bg-white w-full shadow-md" x-data="{ openSignUp: false }">
+  <div class="w-full flex flex-row mx-auto justify-between items-center py-4 px-10">
+    <!-- Logo -->
+    <h1 class="text-xl font-bold">CrowdFlare</h1>
+    <!-- Navigation Links -->
+    <nav>
+      <ul class="flex gap-5">
+        <li>
+          <a href="#" hx-get="/home" hx-target="#content" hx-push-url="true" class="py-2 block text-lg transition-transform duration-300 hover:-translate-y-1 hover:font-bold">
+            Home
+          </a>
+        </li>
+        <li>
+          <a href="#" hx-get="/map" hx-target="#content" hx-push-url="true" class="py-2 block text-lg transition-transform duration-300 hover:-translate-y-1 hover:font-bold">
+            Live Map
+          </a>
+        </li>
+        <li>
+          <a href="#" hx-get="/leaderboard" hx-target="#content" hx-push-url="true" class="py-2 block text-lg transition-transform duration-300 hover:-translate-y-1 hover:font-bold">
+            Leaderboard
+          </a>
+        </li>
+        <li>
+          <button @click="openSignUp = true" class="bg-gray-400 px-4 py-2 rounded-md hover:bg-gray-700 transition">
+            Login
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+
+</header>
