@@ -22,10 +22,10 @@
   <div x-data="{ tab: 'all' }">
 
 
-  <div id="navbar" hx-get="/navbar" hx-target="#navbar" hx-trigger="load"></div>
-  <div class="w-full flex flex-col gap-3 mx-auto my-10 py-6 px-36 bg-white shadow rounded-lg">
-    <h1 class="text-2xl font-bold text-center">User Leaderboard</h1>
-    <p class="text-gray-500 text-center">Top contributors to Crowdflare</p>
+    {{template "navbar" .}}
+    <div class="w-full flex flex-col gap-3 mx-auto my-10 py-6 px-36 bg-white shadow rounded-lg">
+      <h1 class="text-2xl font-bold text-center">User Leaderboard</h1>
+      <p class="text-gray-500 text-center">Top contributors to Crowdflare</p>
 
     <div class="flex justify-center mt-4" >
       <button class="px-4 py-2 mx-2 border rounded-md"

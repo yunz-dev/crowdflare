@@ -5,9 +5,16 @@ import (
 	"sort"
 )
 
-func SliceDataByTime(data *models.LeaderboardData, timeframe string) {
+func SliceDataByTime(data []models.User, timeframe string) []models.User {
 	if timeframe == "all" {
-		return
+		sort.Slice(data, func(i, j int) bool {
+			return data[i].Karma > data[j].Karma
+		})
+	
+		second := data[1]
+		data[1] = data[0]
+		data[0] = second
+		return data	
 	}
 	days := 0
 	if timeframe == "month" {
@@ -16,20 +23,21 @@ func SliceDataByTime(data *models.LeaderboardData, timeframe string) {
 		days = 7
 	}
 		
-	for i := range data.Users {
-		if len(data.Users[i].KarmaHistory) < days {
+	for i := range data {
+		if len(data[i].KarmaHistory) < days {
 			continue
 		}
-		latestKarma := data.Users[i].KarmaHistory[len(data.Users[i].KarmaHistory)-1]
-		previousKarma := data.Users[i].KarmaHistory[len(data.Users[i].KarmaHistory)-days]
-		data.Users[i].Karma = latestKarma - previousKarma
+		latestKarma := data[i].KarmaHistory[len(data[i].KarmaHistory)-1]
+		previousKarma := data[i].KarmaHistory[len(data[i].KarmaHistory)-days]
+		data[i].Karma = latestKarma - previousKarma
 	}
 
-	sort.Slice(data.Users, func(i, j int) bool {
-		return data.Users[i].Karma > data.Users[j].Karma
+	sort.Slice(data, func(i, j int) bool {
+		return data[i].Karma > data[j].Karma
 	})
 
-	second := data.Users[1]
-	data.Users[1] = data.Users[0]
-	data.Users[0] = second
+	second := data[1]
+	data[1] = data[0]
+	data[0] = second
+	return data
 }

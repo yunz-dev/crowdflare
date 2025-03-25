@@ -8,7 +8,7 @@ import (
 )
 func LeaderboardPage(w http.ResponseWriter, r *http.Request) {
 
-    tmpl := template.Must(template.ParseFiles("web/templates/leaderboardPage.html"))
+    tmpl := template.Must(template.ParseFiles("web/templates/leaderboardPage.html", "web/templates/partials/navbar.html"))
 	tmpl.Execute(w, nil)
 
 }
@@ -19,9 +19,7 @@ func LeaderboardData(w http.ResponseWriter, r *http.Request) {
     if timeframe == "" {
         timeframe = "all" // Default value
     }
-	data := models.LeaderboardData{
-		CurrentUser: models.User{Username: ""},
-		Users: []models.User{
+	data := []models.User{
 			{
 				Username: "John Doe",
 				Karma: 100,
@@ -52,9 +50,9 @@ func LeaderboardData(w http.ResponseWriter, r *http.Request) {
 				Karma: 73,
 				KarmaHistory: []int{73, 75, 77, 80, 82, 84, 87, 89, 91, 93, 95, 97, 100, 102, 104, 106, 109, 111, 113, 115, 117, 119, 121, 123, 125, 128, 130, 132, 134, 136},
 			},
-		},
-	}
-	service.SliceDataByTime(&data, timeframe)
+		}
+	data = service.SliceDataByTime(data, timeframe)
+	
     tmpl := template.Must(template.ParseFiles("web/templates/partials/leaderboardData.html"))
     tmpl.Execute(w, data)
 }
