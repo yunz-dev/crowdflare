@@ -1,4 +1,5 @@
-package services
+package service
+
 import (
 	"github.com/yunz-dev/crowdflare/internal/models"
 	"sort"
@@ -8,7 +9,7 @@ func SliceDataByTime(data *models.LeaderboardData, timeframe string) {
 	if timeframe == "all" {
 		return
 	}
-	var days int
+	days := 0
 	if timeframe == "month" {
 		days = 30
 	} else {
@@ -23,7 +24,7 @@ func SliceDataByTime(data *models.LeaderboardData, timeframe string) {
 		previousKarma := data.Users[i].KarmaHistory[len(data.Users[i].KarmaHistory)-days]
 		data.Users[i].Karma = latestKarma - previousKarma
 	}
-	
+
 	sort.Slice(data.Users, func(i, j int) bool {
 		return data.Users[i].Karma > data.Users[j].Karma
 	})

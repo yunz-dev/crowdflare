@@ -44,8 +44,7 @@
         This Week
       </button>
     </div>
-    <div id="leaderboard-content">
-      {{ template "leaderboardData" .}}
+      <div id="leaderboard-content" hx-get="/leaderboardData?timeframe=week" hx-target="#leaderboard-content" hx-trigger="load">
     </div>
 
   </div>
