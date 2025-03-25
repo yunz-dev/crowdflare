@@ -20,10 +20,11 @@ func HeartHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
     db.ConnectDB()
-  	staticDir := "../../web/static"
+  	staticDir := "web/static"
 	  fs := http.FileServer(http.Dir(staticDir))
-    http.Handle("/static/", http.StripPrefix("/static/", fs))
+    http.Handle("/static/", http.StripPrefix("/static/", fs))  // Serve static files first
     http.HandleFunc("/heart", HeartHandler)
+
 
   	http.HandleFunc("/register", handlers.RegisterHandler)
 	  http.HandleFunc("/login", handlers.LoginHandler)
@@ -33,7 +34,15 @@ func main() {
 		fmt.Fprintf(w, "Welcome, %s! You accessed a protected route.", user)
 	}))
 
+    http.HandleFunc("/leaderboard", handlers.LeaderboardPage)
+
     http.HandleFunc("/", handlers.LandingPage)
+    http.HandleFunc("/leaderboardData", handlers.LeaderboardData)
+    http.HandleFunc("/app", handlers.AppPage)
+    http.HandleFunc("POST /api/flare", handlers.AddFlare)
+    http.HandleFunc("PUT /api/flare/upvote", handlers.UpvoteFlare)
+    http.HandleFunc("PUT /api/flare/downvote", handlers.DownvoteFlare)
+    http.HandleFunc("GET /api/flares", handlers.GetFlares)
 
     // Start the server
     fmt.Println("Starting server on :8080...")

@@ -2,6 +2,8 @@ module github.com/yunz-dev/crowdflare
 
 go 1.23.2
 
+require go.mongodb.org/mongo-driver v1.17.3
+
 require (
 	github.com/golang-jwt/jwt/v5 v5.2.2 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
@@ -15,4 +17,5 @@ require (
 	golang.org/x/crypto v0.36.0 // indirect
 	golang.org/x/sync v0.12.0 // indirect
 	golang.org/x/text v0.23.0 // indirect
+
 )
