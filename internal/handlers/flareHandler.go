@@ -3,7 +3,6 @@ package handlers
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -75,8 +74,6 @@ func UpvoteFlare(w http.ResponseWriter, r *http.Request) {
     ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
     defer cancel()
 
-    fmt.Printf("%q\n", fid)
-    fmt.Printf("%s\n", fid)
     id, err := primitive.ObjectIDFromHex(fid)
     if err != nil {
         w.WriteHeader(422)
