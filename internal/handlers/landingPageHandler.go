@@ -16,6 +16,7 @@ func LandingPage(w http.ResponseWriter, r *http.Request) {
     partial+ "hero.html",
     partial+ "action.html",
     partial+ "guide.html",
+    partial+ "stats.html",
     "web/templates/index.html",
     )
     if err != nil {
