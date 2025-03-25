@@ -6,6 +6,6 @@ import (
 )
 
 func NavBar(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles("../templates/partials/navbar.html"))
+	tmpl := template.Must(template.ParseFiles("web/templates/partials/navbar.html"))
 	tmpl.Execute(w, nil)
 }
