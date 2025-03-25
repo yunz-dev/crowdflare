@@ -41,10 +41,6 @@ fetch("/api/flares")
     for (const flare of json) {
       let marker = L.marker([flare.Lat, flare.Lng], {
         bubblingMouseEvents: false,
-        fillColor: "blue",
-        stroke: false,
-        fillOpacity: 0.4,
-        radius: 10,
       });
       marker.addTo(map);
       popup = L.popup(null, { maxWidth: 800 });
