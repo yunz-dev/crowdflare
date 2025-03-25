@@ -21,10 +21,13 @@ func main() {
     db.ConnectDB()
   	staticDir := "web/static"
 	  fs := http.FileServer(http.Dir(staticDir))
-    http.Handle("/static/", http.StripPrefix("/static/", fs))
+    http.Handle("/static/", http.StripPrefix("/static/", fs))  // Serve static files first
     http.HandleFunc("/heart", HeartHandler)
-    http.HandleFunc("/app", handlers.AppPage)
+    http.HandleFunc("/navbar", handlers.NavBar)
+    http.HandleFunc("/leaderboard", handlers.LeaderboardPage)
     http.HandleFunc("/", handlers.LandingPage)
+    http.HandleFunc("/leaderboardData", handlers.LeaderboardData)
+    http.HandleFunc("/app", handlers.AppPage)
     http.HandleFunc("POST /api/flare", handlers.AddFlare)
     http.HandleFunc("PUT /api/flare/upvote", handlers.UpvoteFlare)
     http.HandleFunc("PUT /api/flare/downvote", handlers.DownvoteFlare)
