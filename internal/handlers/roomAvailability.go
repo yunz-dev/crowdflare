@@ -29,11 +29,11 @@ func NearbyBuildings(w http.ResponseWriter, r *http.Request) {
 
 	// Get the nearby rooms
 	data := service.GetFullData()
-	buildings := service.GetNearbyBuildings(lat, long, 0.0045, data)
+	buildings := service.GetNearbyBuildings(lat, long, 1, data)
 	freeBuildings := service.GetFreeBuildings(buildings)
 
 	fmt.Println(freeBuildings)
 	// Render the template
-	tmpl := template.Must(template.ParseFiles("web/templates/nearbyRooms.html"))
+	tmpl := template.Must(template.ParseFiles("web/templates/partials/freeBuildings.html"))
 	tmpl.Execute(w, freeBuildings)
 }

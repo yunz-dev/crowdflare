@@ -39,7 +39,7 @@
         const apiUrl = `/nearbyBuildings?lat=${latitude}&lng=${longitude}`;
 
         htmx.ajax('GET', apiUrl, {
-          target: '#apiResponse',
+          target: '#room-content',
           swap: 'innerHTML'
         });
       }
@@ -65,9 +65,9 @@
   </head>
   <body>
     <div class="h-screen w-screen flex flex-col">
-      <div id="apiResponse"></div>
       {{template "navbar" .}}
-      <p id="location">Hello</p>
+      <div id="room-content"></div>
+      <p id="location"></p>
       <button onclick="getLocation()">Get Location</button>
       <div
         class="w-full flex-grow relative"

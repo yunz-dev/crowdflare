@@ -1,0 +1,11 @@
+<ul>
+  {{ range . }}
+      <li>
+          <h2>{{ .name }}</h2>
+          <p>Address: {{ .id }}</p>
+          <p>Rooms available: {{ len .rooms }}</p>
+      </li>
+  {{ else }}
+      <p>No free buildings found.</p>
+  {{ end }}
+</ul>

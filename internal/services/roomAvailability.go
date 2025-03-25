@@ -80,7 +80,7 @@ func GetFullData() map[string]interface{} {
 		}
 	}
 
-	// Return the result map
+	fmt.Println(result)
 	return result
 }
 
@@ -99,19 +99,21 @@ func GetNearbyBuildings(lat float32, lng float32, distance float32, data map[str
 			continue 
 		}
 
-		latField, latExists := buildingMap["lat"].(float32)
-		lngField, lngExists := buildingMap["long"].(float32)
+		latRaw, latExists := buildingMap["lat"].(float64)
+		lngRaw, lngExists := buildingMap["long"].(float64)
 
 		if !latExists || !lngExists {
 			continue
 		}
+		latField := float32(latRaw)
+		lngField := float32(lngRaw)
 		if (lngField-lng)*(lngField-lng)+(latField-lat)*(latField-lat) > distance*distance {
 			continue
 		}
 		nearbyBuildings = append(nearbyBuildings, buildingMap)
 	}
 
-	// Return the filtered buildings
+	fmt.Println(nearbyBuildings)
 	return nearbyBuildings
 }
 
@@ -161,6 +163,5 @@ func GetFreeBuildings(buildings []map[string]interface{}) []map[string]interface
 		}
 	}
 
-	fmt.Println(freeBuildings)
 	return freeBuildings
 }
