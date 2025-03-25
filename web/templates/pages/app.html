@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <script src="/static/js/app.js" defer></script>
+    <script
+      src="https://unpkg.com/htmx.org@2.0.4"
+      integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
+      crossorigin="anonymous"
+    ></script>
+    <title>Crowdflare</title>
+  </head>
+  <body>
+    <div class="h-screen w-screen flex flex-col">
+      {{template "navbar" .}}
+      <div
+        class="w-full flex-grow relative"
+        x-data="{add: false}"
+      >
+        <div id="map" class="w-full h-full z-0"></div>
+
+        <div
+          x-show="add"
+          style="display: none"
+          class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+        >
+          <div
+            @click.outside="add = false"
+            class="bg-white p-6 rounded-lg shadow-lg w-96 relative"
+          >
+            <form
+              hx-post="/api/flare"
+              hx-swap="none"
+              hx-vals="js:{lat: latlng.lat, lng: latlng.lng}"
+            >
+              <div class="flex w-full flex-col text-gray-700">
+                <label for="rangeSlider" class="w-fit pl-0.5 text-sm"
+                  >Crowded Rating</label
+                >
+                <input
+                  name="rating"
+                  id="rangeSlider"
+                  type="range"
+                  value="2"
+                  min="0"
+                  max="5"
+                  step="1"
+                  required
+                  class="z-10 mb-1 mt-4 h-2 w-full appearance-none bg-gray-300 [&::-moz-range-thumb]:size-4 [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:border-none [&::-moz-range-thumb]:bg-blue-400 active:[&::-moz-range-thumb]:scale-110 [&::-webkit-slider-thumb]:size-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:border-none [&::-webkit-slider-thumb]:bg-blue-400 active:[&::-webkit-slider-thumb]:scale-110 [&::-moz-range-thumb]:rounded-full [&::-webkit-slider-thumb]:rounded-full rounded-full"
+                />
+                <div
+                  class="flex items-center justify-between px-2 text-center text-neutral-600"
+                >
+                  <span
+                    class="w-0 -translate-x-1 text-xs even:hidden md:even:inline-block"
+                    >0</span
+                  >
+                  <span
+                    class="text-[6px] font-bold opacity-50 even:hidden md:even:inline-block"
+                    >|</span
+                  >
+                  <span
+                    class="text-[6px] font-bold opacity-50 even:hidden md:even:inline-block"
+                    >|</span
+                  >
+                  <span
+                    class="text-[6px] font-bold opacity-50 even:hidden md:even:inline-block"
+                    >|</span
+                  >
+                  <span
+                    class="text-[6px] font-bold opacity-50 even:hidden md:even:inline-block"
+                    >|</span
+                  >
+                  <span
+                    class="w-0 -translate-x-2 text-xs even:hidden md:even:inline-block"
+                    >5</span
+                  >
+                </div>
+              </div>
+              <button
+                type="submit"
+                @click="location.reload()"
+                class="w-full text-white bg-gray-500 p-2 rounded hover:bg-gray-600 transition"
+              >
+                Fire
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
