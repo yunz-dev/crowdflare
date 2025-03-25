@@ -39,7 +39,7 @@
       <div class="w-6 h-0.5 bg-black mb-1"></div>
     </div>
 
-  <nav x-show="openMobile" class="flex md:hidden fixed rounded-xl inset-0 bg-gray-800 bg-opacity-80 flex justify-center items-center z-10">
+  <nav x-show="openMobile" class="flex md:hidden fixed top-5 right-5 rounded-xl inset-0flex justify-center items-center z-10">
     <ul class="flex flex-col rounded-xl gap-5 bg-gray-800 text-white p-5">
       <li>
         <a href="/" hx-push-url="true" class="py-2 text-lg transition-transform duration-300 hover:-translate-y-1 hover:font-bold">
@@ -60,6 +60,11 @@
         <button @click="open = true; mode = 'login'; openMobile = false" class="bg-gray-400 px-4 py-2 rounded-md hover:bg-gray-700 transition">
           Login
         </button>
+      </li>
+      <li>
+        <p @click="openMobile = false" class="py-2 text-md transition-transform duration-300 hover:-translate-y-1 hover:font-bold">
+          Close
+        </p>
       </li>
     </ul>
   </nav>
