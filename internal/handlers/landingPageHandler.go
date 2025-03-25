@@ -9,7 +9,16 @@ import (
 
 func LandingPage(w http.ResponseWriter, r *http.Request) {
     // Parse the templates (header, footer, and landing page)
-    tmpl, err := template.ParseFiles("web/templates/partials/navbar.html","web/templates/partials/footer.html", "web/templates/index.html", "web/templates/partials/guide.html")
+    partial := "web/templates/partials/"
+    tmpl, err := template.ParseFiles(
+    partial+ "navbar.html",
+    partial+ "footer.html",
+    partial+ "hero.html",
+    partial+ "action.html",
+    partial+ "guide.html",
+    partial+ "stats.html",
+    "web/templates/index.html",
+    )
     if err != nil {
         log.Fatal(err)
     }
