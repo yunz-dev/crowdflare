@@ -13,9 +13,10 @@ var jwtSecret = os.Getenv("JWT_SECRET")
 
 // GenerateJWT creates a JWT token for authentication
 func GenerateJWT(username string) (string, error) {
+  const month = 700 * time.Hour
 	claims := jwt.MapClaims{
 		"username": username,
-		"exp":      time.Now().Add(24 * time.Hour).Unix(), // Expires in 24 hours
+		"exp":      time.Now().Add(month).Unix(), // Expires in 24 hours
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
