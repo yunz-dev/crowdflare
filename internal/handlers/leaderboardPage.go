@@ -8,8 +8,15 @@ import (
 )
 func LeaderboardPage(w http.ResponseWriter, r *http.Request) {
 
-    tmpl := template.Must(template.ParseFiles("web/templates/leaderboardPage.html", "web/templates/partials/navbar.html"))
-	tmpl.Execute(w, nil)
+	data := models.User{
+		Username: "John Doe",
+		Streak: 7,
+		FlareCount: 23,
+		Karma: 134,
+		KarmaHistory: []int{100, 102, 105, 108, 110, 112, 115, 117, 119, 121, 123, 124, 126, 128, 130, 132, 135, 137, 140, 142, 145, 147, 150, 153, 155, 158, 160, 163, 165, 167},
+	}
+    tmpl := template.Must(template.ParseFiles("web/templates/leaderboardPage.html", "web/templates/partials/navbar.html", "web/templates/partials/userStats.html"))
+	tmpl.Execute(w, data)
 
 }
 
