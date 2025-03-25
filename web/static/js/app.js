@@ -50,32 +50,39 @@ fetch("/api/flares")
       popup = L.popup(null, { maxWidth: 800 });
       popup.setContent(
         `
-        <div x-data="{upvotes: ${flare.Upvotes}, downvotes: ${flare.Downvotes}}">
+        <div class="flare-popup" x-data="{upvotes: ${flare.Upvotes}, downvotes: ${flare.Downvotes}}">
             <h1 class="text-lg">${flare.OwnerId}</hi>
             <h2>${flare.Rating}/5</h2>
             <div class="flex flex-row items-center justify-around">
                 <button
-                    hx-put="/api/upvote/"
-                    hx-trigger="load once"
+                    hx-put="/api/flare/upvote"
+                    hx-vals='{"id": "${flare.ID}"}'
+                    hx-trigger="click once"
                     hx-swap="none"
                     @click.once="upvotes++">⬆️</button>
                 <h3 x-text="upvotes"></h3>
                 <button
-                    hx-put="/api/downvote/"
-                    hx-trigger="load once"
+                    hx-put="/api/flare/downvote"
+                    hx-vals='{"id": "${flare.ID}"}'
+                    hx-trigger="click once"
                     hx-swap="none"
-                    @click.once="downvotes++; htmx.process(this)">⬇️</button>
+                    @click.once="downvotes++">⬇️</button>
                 <h3 x-text="downvotes"></h3>
             </div>
         </div>
         `,
       );
       marker.bindPopup(popup);
+      marker.on("click", () => {
+        for (const e of document.querySelectorAll(".flare-popup")) {
+          htmx.process(e);
+        }
+      });
 
-      e = marker._icon;
-      if (!e) {
-        continue;
-      }
+      // e = marker._icon;
+      // if (!e) {
+      //   continue;
+      // }
 
       // e.setAttribute("hx-get", "/component/flare");
       // e.setAttribute("hx-vals", `{"id": ${flare.id}}`);

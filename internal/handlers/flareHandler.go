@@ -1,18 +1,19 @@
 package handlers
 
 import (
-    "context"
-    "encoding/json"
-    "net/http"
-    "strconv"
-    "time"
+	"context"
+	"encoding/json"
+	"fmt"
+	"net/http"
+	"strconv"
+	"time"
 
-    "go.mongodb.org/mongo-driver/bson/primitive"
-    "go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo/options"
 
-    "github.com/yunz-dev/crowdflare/internal/db"
-    "github.com/yunz-dev/crowdflare/internal/models"
-    "go.mongodb.org/mongo-driver/bson"
+	"github.com/yunz-dev/crowdflare/internal/db"
+	"github.com/yunz-dev/crowdflare/internal/models"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 func AddFlare(w http.ResponseWriter, r *http.Request) {
@@ -67,12 +68,15 @@ func AddFlare(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpvoteFlare(w http.ResponseWriter, r *http.Request) {
-    fid := r.URL.Query().Get("id")
+    r.ParseForm()
+    fid := r.FormValue("id")
     flares := db.GetCollection("flares")
 
     ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
     defer cancel()
 
+    fmt.Printf("%q\n", fid)
+    fmt.Printf("%s\n", fid)
     id, err := primitive.ObjectIDFromHex(fid)
     if err != nil {
         w.WriteHeader(422)
@@ -88,7 +92,8 @@ func UpvoteFlare(w http.ResponseWriter, r *http.Request) {
 }
 
 func DownvoteFlare(w http.ResponseWriter, r *http.Request) {
-    fid := r.URL.Query().Get("id")
+    r.ParseForm()
+    fid := r.FormValue("id")
     flares := db.GetCollection("flares")
 
     ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -116,8 +121,10 @@ func GetFlares(w http.ResponseWriter, r *http.Request) {
     one_hour := time.Duration(60 * 60 * 1_000_000_000)
     filter := bson.D{{"fired", bson.D{{"$gte", time.Now().Add(-one_hour)}}}}
     flare_cursor, err := flares.Find(ctx, filter)
+
     var all_flares []models.Flare
     flare_cursor.All(ctx, &all_flares)
+
     if err != nil {
         w.WriteHeader(500)
         return
