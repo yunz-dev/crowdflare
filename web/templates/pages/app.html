@@ -51,7 +51,7 @@
             class="bg-white p-6 rounded-lg shadow-lg w-96 relative"
           >
             <form
-              hx-post="/api/addflare"
+              hx-post="/api/flare"
               hx-swap="none"
               hx-vals="js:{lat: latlng.lat, lng: latlng.lng}"
             >
@@ -101,7 +101,7 @@
               </div>
               <button
                 type="submit"
-                @click="add = false"
+                @click="location.reload()"
                 class="w-full text-white bg-gray-500 p-2 rounded hover:bg-gray-600 transition"
               >
                 Fire
