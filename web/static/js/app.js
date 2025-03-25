@@ -17,11 +17,11 @@ L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
 let popup = L.popup();
 let latlng = null;
 
-map.on("click", function (e) {
+map.on("click", (e) => {
   latlng = e.latlng;
   popup
     .setLatLng(e.latlng)
-    .setContent(`<button @click="popup=true">Add flare 🎆<button>`)
+    .setContent(`<button @click="add=true">Fire a flare here 🎆<button>`)
     .openOn(map);
 });
 
@@ -32,14 +32,16 @@ dummy_flares = [
 ];
 
 for (const flare of dummy_flares) {
-  let marker = L.circle([flare.lat, flare.lng]);
-  marker.setStyle({
+  let marker = L.circle([flare.lat, flare.lng], {
+    bubblingMouseEvents: false,
     fillColor: "red",
     stroke: false,
     fillOpacity: 0.4,
-    radius: 200,
+    radius: 15,
   });
   marker.addTo(map);
+  marker.on("click", () => {
+  });
 
   e = marker._path;
   if (!e) {
