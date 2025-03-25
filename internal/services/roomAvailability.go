@@ -120,9 +120,12 @@ func GetFreeBuildings(buildings []map[string]interface{}) []map[string]interface
 
 	for _, building := range buildings {
 		rooms, exists := building["rooms"].([]interface{})
-		if !exists {
+		if !exists || len(rooms) == 0 {
 			continue
 		}
+
+		totalRooms := len(rooms)
+		freeRooms := 0
 
 		for _, room := range rooms {
 			roomMap, ok := room.(map[string]interface{})
@@ -131,16 +134,12 @@ func GetFreeBuildings(buildings []map[string]interface{}) []map[string]interface
 			}
 
 			bookings, exists := roomMap["bookings"].([]interface{})
-			if !exists {
-				freeBuildings = append(freeBuildings, building)
-				break
+			if !exists || len(bookings) == 0 {
+				freeRooms++
+				continue
 			}
 
-			if len(bookings) == 0 {
-				freeBuildings = append(freeBuildings, building)
-				break
-			}
-
+			// Check if the last booking has ended
 			lastBooking := bookings[len(bookings)-1].(map[string]interface{})
 			endTime, err := time.Parse(time.RFC3339, lastBooking["end"].(string))
 			if err != nil {
@@ -148,9 +147,17 @@ func GetFreeBuildings(buildings []map[string]interface{}) []map[string]interface
 			}
 
 			if endTime.Before(time.Now()) {
-				freeBuildings = append(freeBuildings, building)
-				break
+				freeRooms++
 			}
+		}
+
+		// Calculate "freeness" score
+		freeness := float64(freeRooms) / float64(totalRooms)
+		building["freeness"] = freeness
+
+		// Only add buildings that have at least one free room
+		if freeRooms > 0 {
+			freeBuildings = append(freeBuildings, building)
 		}
 	}
 
