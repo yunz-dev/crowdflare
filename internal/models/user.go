@@ -1,6 +1,6 @@
 package models
 
-type User struct {
+type LeaderboardUser struct {
     Username  string        `bson:"username"`
     Streak int              `bson:"streak"`
     FlareCount int          `bson:"contribution_count"`

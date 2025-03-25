@@ -5,16 +5,16 @@ import (
 	"sort"
 )
 
-func SliceDataByTime(data []models.User, timeframe string) []models.User {
+func SliceDataByTime(data []models.LeaderboardUser, timeframe string) []models.LeaderboardUser {
 	if timeframe == "all" {
 		sort.Slice(data, func(i, j int) bool {
 			return data[i].Karma > data[j].Karma
 		})
-	
+
 		second := data[1]
 		data[1] = data[0]
 		data[0] = second
-		return data	
+		return data
 	}
 	days := 0
 	if timeframe == "month" {
@@ -22,7 +22,7 @@ func SliceDataByTime(data []models.User, timeframe string) []models.User {
 	} else {
 		days = 7
 	}
-		
+
 	for i := range data {
 		if len(data[i].KarmaHistory) < days {
 			continue

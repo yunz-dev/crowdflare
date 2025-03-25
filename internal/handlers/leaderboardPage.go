@@ -8,7 +8,7 @@ import (
 )
 func LeaderboardPage(w http.ResponseWriter, r *http.Request) {
 
-	data := models.User{
+	data := models.LeaderboardUser{
 		Username: "John Doe",
 		Streak: 7,
 		FlareCount: 23,
@@ -26,7 +26,7 @@ func LeaderboardData(w http.ResponseWriter, r *http.Request) {
     if timeframe == "" {
         timeframe = "all" // Default value
     }
-	data := []models.User{
+	data := []models.LeaderboardUser{
 			{
 				Username: "John Doe",
 				Karma: 100,
@@ -59,7 +59,7 @@ func LeaderboardData(w http.ResponseWriter, r *http.Request) {
 			},
 		}
 	data = service.SliceDataByTime(data, timeframe)
-	
+
     tmpl := template.Must(template.ParseFiles("web/templates/partials/leaderboardData.html"))
     tmpl.Execute(w, data)
 }
