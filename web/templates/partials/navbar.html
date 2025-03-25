@@ -7,7 +7,14 @@
     class="w-full flex flex-row mx-auto justify-between items-center py-4 px-10"
   >
     <!-- Logo -->
-    <h1 class="text-xl font-bold">CrowdFlare</h1>
+    <span style="display: flex; align-items: center;">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5.875 12.5729C5.30847 11.2498 5 9.84107 5 8.51463C5 4.9167 8.13401 2 12 2C15.866 2 19 4.9167 19 8.51463C19 12.0844 16.7658 16.2499 13.2801 17.7396C12.4675 18.0868 11.5325 18.0868 10.7199 17.7396C9.60664 17.2638 8.62102 16.5151 7.79508 15.6" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M14 9C14 10.1046 13.1046 11 12 11C10.8954 11 10 10.1046 10 9C10 7.89543 10.8954 7 12 7C13.1046 7 14 7.89543 14 9Z" stroke="#1C274C" stroke-width="1.5"/>
+      <path d="M20.9605 15.5C21.6259 16.1025 22 16.7816 22 17.5C22 18.4251 21.3797 19.285 20.3161 20M3.03947 15.5C2.37412 16.1025 2 16.7816 2 17.5C2 19.9853 6.47715 22 12 22C13.6529 22 15.2122 21.8195 16.5858 21.5" stroke="#000000" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+  <div class="w-2"></div><h1 class="text-xl font-bold">CrowdFlare</h1>
+  </span>
 
     <!-- Desktop Navigation Menu -->
     <nav class="hidden md:block">
@@ -16,7 +23,7 @@
           <a
             href="/"
             hx-push-url="true"
-            class="py-2 block text-lg transition-transform duration-300 hover:-translate-y-1 hover:font-bold"
+            class="py-2 block text-lg transition-transform duration-200 hover:-translate-y-0.5"
           >
             Home
           </a>
@@ -25,7 +32,7 @@
           <a
             href="/map"
             hx-push-url="true"
-            class="py-2 block text-lg transition-transform duration-300 hover:-translate-y-1 hover:font-bold"
+            class="py-2 block text-lg transition-transform duration-200 hover:-translate-y-0.5"
           >
             Live Map
           </a>
@@ -34,7 +41,7 @@
           <a
             href="/leaderboard"
             hx-push-url="true"
-            class="py-2 block text-lg transition-transform duration-300 hover:-translate-y-1 hover:font-bold"
+            class="py-2 block text-lg transition-transform duration-200 hover:-translate-y-0.5"
           >
             Leaderboard
           </a>
@@ -42,7 +49,7 @@
         <li>
           <button
             @click="open = true; mode = 'login'"
-            class="bg-gray-400 px-4 py-2 rounded-md hover:bg-gray-700 transition"
+            class="bg-gray-600 px-4 py-2 rounded-md hover:bg-gray-700 text-gray-100 transition"
           >
             Login
           </button>
@@ -57,35 +64,44 @@
       <div class="w-6 h-0.5 bg-black mb-1"></div>
     </div>
 
-  <nav x-show="openMobile" class="flex md:hidden fixed top-5 right-5 rounded-xl inset-0flex justify-center items-center z-10">
-    <ul class="flex flex-col rounded-xl gap-5 bg-gray-800 text-white p-5">
+    
+    <nav x-show="openMobile" class="flex md:hidden fixed top-5 right-5 rounded-xl inset-0flex justify-center items-center z-10">
+      <!-- <button
+      @click="open = false"
+      class="absolute top-2 right-2 text-2xl text-center font-bold mb-4 text-gray-500 hover:text-gray-700"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" height="30" width="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button> -->
+    <ul class="flex flex-col rounded-xl gap-5 bg-white text-white p-5 duration-300 border border-gray-300">
       <li>
-        <a href="/" hx-push-url="true" class="py-2 text-lg transition-transform duration-300 hover:-translate-y-1 hover:font-bold">
+        <a @click="open = true; mode = 'login'; openMobile = false" class="text-gray-600 py-2 text-lg cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:font-bold">
+          Login
+        </a>          
+      </li>
+      <li>
+        <a href="/" hx-push-url="true" class="text-gray-600 py-2 text-lg transition-all duration-300 hover:-translate-y-1 hover:font-bold">
           Home
         </a>
       </li>
       <li>
-        <a href="/map" hx-push-url="true" class="py-2 text-lg transition-transform duration-300 hover:-translate-y-1 hover:font-bold">
+        <a href="/map" hx-push-url="true" class="text-gray-600 py-2 text-lg transition-all duration-300 hover:-translate-y-1 hover:font-bold">
           Live Map
         </a>
       </li>
       <li>
-        <a href="/leaderboard" hx-push-url="true" class="py-2 text-lg transition-transform duration-300 hover:-translate-y-1 hover:font-bold">
+        <a href="/leaderboard" hx-push-url="true" class="text-gray-600 py-2 text-lg transition-all duration-300 hover:-translate-y-1 hover:font-bold">
           Leaderboard
         </a>
       </li>
       <li>
-        <button @click="open = true; mode = 'login'; openMobile = false" class="bg-gray-400 px-4 py-2 rounded-md hover:bg-gray-700 transition">
-          Login
-        </button>
-      </li>
-      <li>
-        <p @click="openMobile = false" class="py-2 text-md transition-transform duration-300 hover:-translate-y-1 hover:font-bold">
+        <p @click="openMobile = false" class="text-gray-600 py-2 text-lg text-1xl duration-300 hover:font-bold cursor-pointer">
           Close
-        </p>
+        </p>          
       </li>
     </ul>
-  </nav>
+    
+    </nav>
+    
   <!-- Login/Signup Modal -->
   <div
     x-show="open"
@@ -102,7 +118,7 @@
         @click="open = false"
         class="absolute top-2 right-2 text-2xl text-center font-bold mb-4 text-gray-500 hover:text-gray-700"
       >
-        x
+        <svg xmlns="http://www.w3.org/2000/svg" height="30" width="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
       </button>
 
       <!-- Login/Signup Form -->
@@ -118,11 +134,11 @@
 
         <!-- Submit -->
         <button type="submit"
-          class="w-full bg-gray-400 py-2 rounded-lg hover:bg-gray-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
+          class="w-full text-gray-100 bg-gray-600 py-2 rounded-lg hover:bg-gray-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
           <span>Login</span>
         </button>
         <span class="block mt-4 text-gray-500">Don't have an account?
-          <button @click="mode = 'signup'" class="hover:font-bold">Sign up</button>
+          <button @click="mode = 'signup'" class="hover:underline text-gray-700">Sign up</button>
         </span>
       </form>
 
@@ -160,12 +176,12 @@
         <!-- Submit -->
         <button
           type="submit"
-          class="w-full bg-gray-400 py-2 rounded-lg hover:bg-gray-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+          class="w-full text-gray-100 bg-gray-600 py-2 rounded-lg hover:bg-gray-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
           :disabled="password !== confirmPassword">
           <span>Sign Up</span>
         </button>
         <span class="block mt-4 text-gray-500">Already have an account?
-          <button @click="mode = 'login'" class="hover:font-bold">Login</button>
+          <button @click="mode = 'login'" class="hover:underline text-gray-900">Login</button>
         </span>
       </form>
 
