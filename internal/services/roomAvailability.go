@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"bytes"
 	"encoding/json"
 	"io"
@@ -112,4 +113,47 @@ func GetNearbyBuildings(lat float32, lng float32, distance float32, data map[str
 
 	// Return the filtered buildings
 	return nearbyBuildings
+}
+
+func GetFreeBuildings(buildings []map[string]interface{}) []map[string]interface{} {
+	var freeBuildings []map[string]interface{}
+
+	for _, building := range buildings {
+		rooms, exists := building["rooms"].([]interface{})
+		if !exists {
+			continue
+		}
+
+		for _, room := range rooms {
+			roomMap, ok := room.(map[string]interface{})
+			if !ok {
+				continue
+			}
+
+			bookings, exists := roomMap["bookings"].([]interface{})
+			if !exists {
+				freeBuildings = append(freeBuildings, building)
+				break
+			}
+
+			if len(bookings) == 0 {
+				freeBuildings = append(freeBuildings, building)
+				break
+			}
+
+			lastBooking := bookings[len(bookings)-1].(map[string]interface{})
+			endTime, err := time.Parse(time.RFC3339, lastBooking["end"].(string))
+			if err != nil {
+				continue
+			}
+
+			if endTime.Before(time.Now()) {
+				freeBuildings = append(freeBuildings, building)
+				break
+			}
+		}
+	}
+
+	fmt.Println(freeBuildings)
+	return freeBuildings
 }

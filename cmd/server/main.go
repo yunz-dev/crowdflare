@@ -35,7 +35,7 @@ func main() {
 	}))
 
     http.HandleFunc("/leaderboard", handlers.LeaderboardPage)
-
+    http.HandleFunc("/nearbyBuildings", handlers.NearbyBuildings)
     http.HandleFunc("/", handlers.LandingPage)
     http.HandleFunc("/leaderboardData", handlers.LeaderboardData)
     http.HandleFunc("/app", handlers.AppPage)

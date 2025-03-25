@@ -22,43 +22,47 @@
       integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@2.0.2/build/global/luxon.min.js"></script>
+
     <script>
       function getLocation() {
-          if (navigator.geolocation) {
-              navigator.geolocation.getCurrentPosition(fetchAPI, showError);
-          } else {
-              document.getElementById("location").innerHTML = "Geolocation is not supported by this browser.";
-          }
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(fetchAPI, showError);
+        } else {
+          document.getElementById("location").innerHTML = "Geolocation is not supported by this browser.";
+        }
       }
 
       function fetchAPI(position) {
-          const latitude = position.coords.latitude;
-          const longitude = position.coords.longitude;
-          document.getElementById("location").innerHTML = `Latitude: ${latitude}, Longitude: ${longitude}`;
+        const { DateTime } = luxon;
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        const isoDate = DateTime.local().toISO();  // This gets the local time in ISO 8601 format
+        document.getElementById("location").innerHTML = `Latitude: ${latitude}, Longitude: ${longitude}, Date: ${isoDate}`;
 
-          const apiUrl = `/nearbyBuildings?lat=${latitude}&lng=${longitude}`;
+        const apiUrl = `/nearbyBuildings?lat=${latitude}&lng=${longitude}&date=${isoDate}`;
 
-          htmx.ajax('GET', apiUrl, {
-              target: '#apiResponse',
-              swap: 'innerHTML'
-          });
+        htmx.ajax('GET', apiUrl, {
+          target: '#apiResponse',
+          swap: 'innerHTML'
+        });
       }
 
       function showError(error) {
-          switch(error.code) {
-              case error.PERMISSION_DENIED:
-                  document.getElementById("location").innerHTML = "User denied the request for Geolocation.";
-                  break;
-              case error.POSITION_UNAVAILABLE:
-                  document.getElementById("location").innerHTML = "Location information is unavailable.";
-                  break;
-              case error.TIMEOUT:
-                  document.getElementById("location").innerHTML = "The request to get user location timed out.";
-                  break;
-              case error.UNKNOWN_ERROR:
-                  document.getElementById("location").innerHTML = "An unknown error occurred.";
-                  break;
-          }
+        switch(error.code) {
+          case error.PERMISSION_DENIED:
+            document.getElementById("location").innerHTML = "User denied the request for Geolocation.";
+            break;
+          case error.POSITION_UNAVAILABLE:
+            document.getElementById("location").innerHTML = "Location information is unavailable.";
+            break;
+          case error.TIMEOUT:
+            document.getElementById("location").innerHTML = "The request to get user location timed out.";
+            break;
+          case error.UNKNOWN_ERROR:
+            document.getElementById("location").innerHTML = "An unknown error occurred.";
+            break;
+        }
       }
   </script>
     <title>Crowdflare</title>
