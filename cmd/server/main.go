@@ -26,15 +26,14 @@ func main() {
     http.HandleFunc("/heart", HeartHandler)
 
 
-  	http.HandleFunc("/register", handlers.RegisterHandler)
-	  http.HandleFunc("/login", handlers.LoginHandler)
-
   	http.HandleFunc("/protected", middleware.AuthMiddleware(func(w http.ResponseWriter, r *http.Request) {
 		user := r.Header.Get("X-User")
 		fmt.Fprintf(w, "Welcome, %s! You accessed a protected route.", user)
 	}))
 
     http.HandleFunc("/leaderboard", handlers.LeaderboardPage)
+  	http.HandleFunc("/login", handlers.LoginHandler(db.Client.Database("testdb")))
+  	http.HandleFunc("/register", handlers.RegisterHandler(db.Client.Database("testdb")))
 
     http.HandleFunc("/", handlers.LandingPage)
     http.HandleFunc("/leaderboardData", handlers.LeaderboardData)
