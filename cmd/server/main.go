@@ -8,6 +8,7 @@ import (
 
 	"github.com/yunz-dev/crowdflare/internal/handlers"
 	"github.com/yunz-dev/crowdflare/internal/db"
+	"github.com/yunz-dev/crowdflare/internal/middleware"
 )
 
 // HeartHandler checks if the server is running.
@@ -23,8 +24,18 @@ func main() {
 	  fs := http.FileServer(http.Dir(staticDir))
     http.Handle("/static/", http.StripPrefix("/static/", fs))  // Serve static files first
     http.HandleFunc("/heart", HeartHandler)
-    http.HandleFunc("/navbar", handlers.NavBar)
+
+
+  	http.HandleFunc("/register", handlers.RegisterHandler)
+	  http.HandleFunc("/login", handlers.LoginHandler)
+
+  	http.HandleFunc("/protected", middleware.AuthMiddleware(func(w http.ResponseWriter, r *http.Request) {
+		user := r.Header.Get("X-User")
+		fmt.Fprintf(w, "Welcome, %s! You accessed a protected route.", user)
+	}))
+
     http.HandleFunc("/leaderboard", handlers.LeaderboardPage)
+
     http.HandleFunc("/", handlers.LandingPage)
     http.HandleFunc("/leaderboardData", handlers.LeaderboardData)
     http.HandleFunc("/app", handlers.AppPage)
