@@ -1,8 +1,8 @@
 package models
 
-import {
+import (
 	"time"
-}
+)
 
 type Flare struct {
 	Lat float32

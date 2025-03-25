@@ -4,7 +4,7 @@
     {{ range $index, $user := .TopUsers }}
     <div class="{{ if eq $index 1 }}bg-gray-200 p-4 rounded-lg border-2 border-black{{ else }}bg-gray-100 p-4 rounded-lg{{ end }}">
       <h2 class="text-lg font-bold">
-        {{ if eq $index 0 }}1st{{ else if eq $index 1 }}2nd{{ else if eq $index 2 }}3rd{{ else }}th{{ end }}
+        {{ if eq $index 0 }}2nd{{ else if eq $index 1 }}1st{{ else if eq $index 2 }}3rd{{ else }}th{{ end }}
       </h2>
       <p class="font-semibold">{{ $user.Username }}</p>
       <p class="text-gray-500">{{ $user.Karma }} Karma</p>
