@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- HTMX -->
+    <script
+      src="https://unpkg.com/htmx.org@2.0.4"
+      integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Alpine.js -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+      defer
+    ></script>
+    <title>Landing Page</title>
+  </head>
+  <body>
+    {{template "navbar" .}}
+
+    <div class="content">
+      <h2>Welcome to the Landing Page</h2>
+      <p>This is the main content of the page.</p>
+    </div>
+
+    {{template "footer" .}}
+  </body>
+</html>

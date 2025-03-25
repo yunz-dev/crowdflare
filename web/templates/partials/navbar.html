@@ -1,31 +1,48 @@
-<header class="bg-white w-full shadow-md" x-data="{ open: false, mode: 'login' }">
-  <div class="w-full flex flex-row mx-auto justify-between items-center py-4 px-10">
+{{define "navbar"}}
+<header
+  class="bg-white w-full shadow-md"
+  x-data="{ open: false, mode: 'login' }"
+>
+  <div
+    class="w-full flex flex-row mx-auto justify-between items-center py-4 px-10"
+  >
     <!-- Logo -->
     <h1 class="text-xl font-bold">CrowdFlare</h1>
     <!-- Navigation Links -->
     <nav>
       <ul class="flex gap-5">
         <li>
-          <a href="/" hx-push-url="true"
-            class="py-2 block text-lg transition-transform duration-300 hover:-translate-y-1 hover:font-bold">
+          <a
+            href="/"
+            hx-push-url="true"
+            class="py-2 block text-lg transition-transform duration-300 hover:-translate-y-1 hover:font-bold"
+          >
             Home
           </a>
         </li>
         <li>
-          <a href="/map" hx-push-url="true"
-            class="py-2 block text-lg transition-transform duration-300 hover:-translate-y-1 hover:font-bold">
+          <a
+            href="/map"
+            hx-push-url="true"
+            class="py-2 block text-lg transition-transform duration-300 hover:-translate-y-1 hover:font-bold"
+          >
             Live Map
           </a>
         </li>
         <li>
-          <a href="/leaderboard" hx-push-url="true"
-            class="py-2 block text-lg transition-transform duration-300 hover:-translate-y-1 hover:font-bold">
+          <a
+            href="/leaderboard"
+            hx-push-url="true"
+            class="py-2 block text-lg transition-transform duration-300 hover:-translate-y-1 hover:font-bold"
+          >
             Leaderboard
           </a>
         </li>
         <li>
-          <button @click="open = true; mode = 'login'"
-            class="bg-gray-400 px-4 py-2 rounded-md hover:bg-gray-700 transition">
+          <button
+            @click="open = true; mode = 'login'"
+            class="bg-gray-400 px-4 py-2 rounded-md hover:bg-gray-700 transition"
+          >
             Login
           </button>
         </li>
@@ -34,7 +51,10 @@
   </div>
 
   <!-- Login/Signup Modal -->
-  <div x-show="open" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+  <div
+    x-show="open"
+    class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+  >
     <div class="bg-white p-6 rounded-lg shadow-lg w-96 relative">
       <div class="flex flex-col gap-3 p-5">
         <h1 class="text-2xl text-center font-bold">CrowdFlare</h1>
@@ -42,8 +62,10 @@
       </div>
 
       <!-- Close Button (X in top-right corner) -->
-      <button @click="open = false"
-        class="absolute top-2 right-2 text-2xl  text-center font-bold mb-4 text-gray-500 hover:text-gray-700">
+      <button
+        @click="open = false"
+        class="absolute top-2 right-2 text-2xl text-center font-bold mb-4 text-gray-500 hover:text-gray-700"
+      >
         x
       </button>
 
@@ -51,37 +73,57 @@
       <form x-data="{ zid: '', password: '', confirmPassword: '' }">
         <div class="mb-4">
           <label class="block text-gray-700">zID</label>
-          <input x-model="zid" class="w-full border px-3 py-2 rounded-lg" required>
+          <input
+            x-model="zid"
+            class="w-full border px-3 py-2 rounded-lg"
+            required
+          />
         </div>
         <div class="mb-4">
           <label class="block text-gray-700">Password</label>
-          <input type="password" x-model="password" class="w-full border px-3 py-2 rounded-lg" required>
+          <input
+            type="password"
+            x-model="password"
+            class="w-full border px-3 py-2 rounded-lg"
+            required
+          />
         </div>
 
         <!-- Confirm Password for Signup -->
         <div class="mb-4" x-show="mode === 'signup'">
           <label class="block text-gray-700">Confirm Password</label>
-          <input type="password" x-model="confirmPassword" class="w-full border px-3 py-2 rounded-lg" required>
+          <input
+            type="password"
+            x-model="confirmPassword"
+            class="w-full border px-3 py-2 rounded-lg"
+            required
+          />
         </div>
 
         <!-- Submit -->
-        <button type="submit"
+        <button
+          type="submit"
           class="w-full bg-gray-400 py-2 rounded-lg hover:bg-gray-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
-          :disabled="mode === 'signup' && password !== confirmPassword">
+          :disabled="mode === 'signup' && password !== confirmPassword"
+        >
           <span x-text="mode === 'login' ? 'Login' : 'Sign Up'"></span>
         </button>
       </form>
 
       <p class="mt-4 text-gray-500">
-        <span x-show="mode === 'login'">Don't have an account?
-          <button @click="mode = 'signup'" class="hover:font-bold">Sign up</button>
+        <span x-show="mode === 'login'"
+          >Don't have an account?
+          <button @click="mode = 'signup'" class="hover:font-bold">
+            Sign up
+          </button>
         </span>
-        <span x-show="mode === 'signup'">Already have an account?
+        <span x-show="mode === 'signup'"
+          >Already have an account?
           <button @click="mode = 'login'" class="hover:font-bold">Login</button>
         </span>
       </p>
     </div>
   </div>
-
-
 </header>
+{{end}}
+
