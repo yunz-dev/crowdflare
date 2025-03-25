@@ -17,6 +17,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="//unpkg.com/alpinejs" defer></script>
     <script src="/static/js/app.js" defer></script>
+    <script
+      src="https://unpkg.com/htmx.org@2.0.4"
+      integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
+      crossorigin="anonymous"
+    ></script>
     <title>Crowdflare</title>
   </head>
   <body>
@@ -25,6 +30,7 @@
       <div class="w-full flex-grow relative" x-data="{popup: false}">
         <div id="map" class="w-full h-full z-0"></div>
         <div
+          id="popup"
           x-show="popup"
           x-transition.opacity
           style="display: none"
