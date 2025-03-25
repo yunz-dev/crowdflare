@@ -1,15 +1,18 @@
 package models
 
 import (
-	"time"
+    "time"
+
+    "go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type Flare struct {
-	Lat float32
-	Lng float32
-	Business int
-	Upvotes int
-	Downvotes int
-	OwnerID string
-	Fired time.Time
+    ID        primitive.ObjectID `bson:"_id,omitempty"`
+    Lat       float64
+    Lng       float64
+    Rating    int
+    Upvotes   int
+    Downvotes int
+    OwnerId   string
+    Fired     time.Time
 }

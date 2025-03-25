@@ -27,6 +27,12 @@ func main() {
     http.HandleFunc("/leaderboard", handlers.LeaderboardPage)
     http.HandleFunc("/", handlers.LandingPage)
     http.HandleFunc("/leaderboardData", handlers.LeaderboardData)
+    http.HandleFunc("/app", handlers.AppPage)
+    http.HandleFunc("POST /api/flare", handlers.AddFlare)
+    http.HandleFunc("PUT /api/flare/upvote", handlers.UpvoteFlare)
+    http.HandleFunc("PUT /api/flare/downvote", handlers.DownvoteFlare)
+    http.HandleFunc("GET /api/flares", handlers.GetFlares)
+
     // Start the server
     fmt.Println("Starting server on :8080...")
     if err := http.ListenAndServe(":8080", nil); err != nil {
