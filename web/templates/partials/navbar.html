@@ -1,9 +1,10 @@
-<header class="bg-white w-full shadow-md" x-data="{ open: false, mode: 'login' }">
+<header class="bg-white w-full shadow-md" x-data="{ open: false, mode: 'login', openMobile: false }">
   <div class="w-full flex flex-row mx-auto justify-between items-center py-4 px-10">
     <!-- Logo -->
     <h1 class="text-xl font-bold">CrowdFlare</h1>
-    <!-- Navigation Links -->
-    <nav>
+
+    <!-- Desktop Navigation Menu -->
+    <nav class="hidden md:block">
       <ul class="flex gap-5">
         <li>
           <a href="/" hx-push-url="true"
@@ -24,15 +25,44 @@
           </a>
         </li>
         <li>
-          <button @click="open = true; mode = 'login'"
-            class="bg-gray-400 px-4 py-2 rounded-md hover:bg-gray-700 transition">
+          <button @click="open = true; mode = 'login'; openMobile = false" class="bg-gray-400 px-4 py-2 rounded-md hover:bg-gray-700 transition">
             Login
           </button>
         </li>
       </ul>
     </nav>
-  </div>
 
+    <!-- Mobile Hamburger Menu -->
+    <div @click="openMobile = !openMobile" class="hamburger-menu md:hidden cursor-pointer">
+      <div class="w-6 h-0.5 bg-black mb-1"></div>
+      <div class="w-6 h-0.5 bg-black mb-1"></div>
+      <div class="w-6 h-0.5 bg-black mb-1"></div>
+    </div>
+
+  <nav x-show="openMobile" class="flex md:hidden fixed rounded-xl inset-0 bg-gray-800 bg-opacity-80 flex justify-center items-center z-10">
+    <ul class="flex flex-col rounded-xl gap-5 bg-gray-800 text-white p-5">
+      <li>
+        <a href="/" hx-push-url="true" class="py-2 text-lg transition-transform duration-300 hover:-translate-y-1 hover:font-bold">
+          Home
+        </a>
+      </li>
+      <li>
+        <a href="/map" hx-push-url="true" class="py-2 text-lg transition-transform duration-300 hover:-translate-y-1 hover:font-bold">
+          Live Map
+        </a>
+      </li>
+      <li>
+        <a href="/leaderboard" hx-push-url="true" class="py-2 text-lg transition-transform duration-300 hover:-translate-y-1 hover:font-bold">
+          Leaderboard
+        </a>
+      </li>
+      <li>
+        <button @click="open = true; mode = 'login'; openMobile = false" class="bg-gray-400 px-4 py-2 rounded-md hover:bg-gray-700 transition">
+          Login
+        </button>
+      </li>
+    </ul>
+  </nav>
   <!-- Login/Signup Modal -->
   <div x-show="open" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
     <div class="bg-white p-6 rounded-lg shadow-lg w-96 relative">
