@@ -8,8 +8,9 @@
   >
     <!-- Logo -->
     <h1 class="text-xl font-bold">CrowdFlare</h1>
-    <!-- Navigation Links -->
-    <nav>
+
+    <!-- Desktop Navigation Menu -->
+    <nav class="hidden md:block">
       <ul class="flex gap-5">
         <li>
           <a
@@ -48,8 +49,43 @@
         </li>
       </ul>
     </nav>
-  </div>
 
+    <!-- Mobile Hamburger Menu -->
+    <div @click="openMobile = !openMobile" class="hamburger-menu md:hidden cursor-pointer">
+      <div class="w-6 h-0.5 bg-black mb-1"></div>
+      <div class="w-6 h-0.5 bg-black mb-1"></div>
+      <div class="w-6 h-0.5 bg-black mb-1"></div>
+    </div>
+
+  <nav x-show="openMobile" class="flex md:hidden fixed top-5 right-5 rounded-xl inset-0flex justify-center items-center z-10">
+    <ul class="flex flex-col rounded-xl gap-5 bg-gray-800 text-white p-5">
+      <li>
+        <a href="/" hx-push-url="true" class="py-2 text-lg transition-transform duration-300 hover:-translate-y-1 hover:font-bold">
+          Home
+        </a>
+      </li>
+      <li>
+        <a href="/map" hx-push-url="true" class="py-2 text-lg transition-transform duration-300 hover:-translate-y-1 hover:font-bold">
+          Live Map
+        </a>
+      </li>
+      <li>
+        <a href="/leaderboard" hx-push-url="true" class="py-2 text-lg transition-transform duration-300 hover:-translate-y-1 hover:font-bold">
+          Leaderboard
+        </a>
+      </li>
+      <li>
+        <button @click="open = true; mode = 'login'; openMobile = false" class="bg-gray-400 px-4 py-2 rounded-md hover:bg-gray-700 transition">
+          Login
+        </button>
+      </li>
+      <li>
+        <p @click="openMobile = false" class="py-2 text-md transition-transform duration-300 hover:-translate-y-1 hover:font-bold">
+          Close
+        </p>
+      </li>
+    </ul>
+  </nav>
   <!-- Login/Signup Modal -->
   <div
     x-show="open"
@@ -70,7 +106,28 @@
       </button>
 
       <!-- Login/Signup Form -->
-      <form x-data="{ zid: '', password: '', confirmPassword: '' }">
+      <form x-show="mode === 'login'" x-data="{ zid: '', password: '', confirmPassword: '' }" action="/login">
+        <div class="mb-4">
+          <label class="block text-gray-700">zID</label>
+          <input x-model="zid" class="w-full border px-3 py-2 rounded-lg" required>
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700">Password</label>
+          <input type="password" x-model="password" class="w-full border px-3 py-2 rounded-lg" required>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit"
+          class="w-full bg-gray-400 py-2 rounded-lg hover:bg-gray-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
+          <span>Login</span>
+        </button>
+        <span class="block mt-4 text-gray-500">Don't have an account?
+          <button @click="mode = 'signup'" class="hover:font-bold">Sign up</button>
+        </span>
+      </form>
+
+      <!-- Signup Form -->
+      <form x-show="mode === 'signup'" x-data="{ zid: '', password: '', confirmPassword: '' }" action="/register">
         <div class="mb-4">
           <label class="block text-gray-700">zID</label>
           <input
@@ -90,7 +147,7 @@
         </div>
 
         <!-- Confirm Password for Signup -->
-        <div class="mb-4" x-show="mode === 'signup'">
+        <div class="mb-4">
           <label class="block text-gray-700">Confirm Password</label>
           <input
             type="password"
@@ -104,24 +161,15 @@
         <button
           type="submit"
           class="w-full bg-gray-400 py-2 rounded-lg hover:bg-gray-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
-          :disabled="mode === 'signup' && password !== confirmPassword"
-        >
-          <span x-text="mode === 'login' ? 'Login' : 'Sign Up'"></span>
+          :disabled="password !== confirmPassword">
+          <span>Sign Up</span>
         </button>
-      </form>
-
-      <p class="mt-4 text-gray-500">
-        <span x-show="mode === 'login'"
-          >Don't have an account?
-          <button @click="mode = 'signup'" class="hover:font-bold">
-            Sign up
-          </button>
-        </span>
-        <span x-show="mode === 'signup'"
-          >Already have an account?
+        <span class="block mt-4 text-gray-500">Already have an account?
           <button @click="mode = 'login'" class="hover:font-bold">Login</button>
         </span>
-      </p>
+      </form>
+
+
     </div>
   </div>
 </header>
