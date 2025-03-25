@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <!-- Tailwind CSS (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- HTMX -->
+  <script src="https://unpkg.com/htmx.org@2.0.4"
+    integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
+    crossorigin="anonymous"></script>
+  <!-- Alpine.js -->
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+</head>
+
+<body>
+  <div id="navbar" hx-get="/navbar" hx-target="#navbar" hx-trigger="load"></div>
+  <div class="w-full flex flex-col gap-3 mx-auto my-10 py-6 px-36 bg-white shadow rounded-lg">
+    <h1 class="text-2xl font-bold text-center">User Leaderboard</h1>
+    <p class="text-gray-500 text-center">Top contributors to Crowdflare</p>
+
+    <div class="flex justify-center mt-4" x-data="{ tab: 'all' }">
+      <button class="px-4 py-2 mx-2 border rounded-md"
+        x-bind:class="tab === 'all' ? 'bg-black text-white' : 'bg-gray-200 text-gray-600'" @click="tab = 'all'"
+        hx-get="/leaderboard/data/all-time" hx-target="#leaderboard-content" hx-trigger="click">
+        All Time
+      </button>
+      <button class="px-4 py-2 mx-2 border rounded-md"
+        x-bind:class="tab === 'month' ? 'bg-black text-white' : 'bg-gray-200 text-gray-600'" @click="tab = 'month'"
+        hx-get="/leaderboard/data/month" hx-target="#leaderboard-content" hx-trigger="click">
+        This Month
+      </button>
+      <button class="px-4 py-2 mx-2 border rounded-md"
+        x-bind:class="tab === 'week' ? 'bg-black text-white' : 'bg-gray-200 text-gray-600'" @click="tab = 'week'"
+        hx-get="/leaderboard/data/week" hx-target="#leaderboard-content" hx-trigger="click">
+        This Week
+      </button>
+    </div>
+    <div id="leaderboard-content"></div>
+
+  </div>
+</body>
+
+</html>
