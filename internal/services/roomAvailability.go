@@ -141,7 +141,7 @@ func GetFreeBuildings(buildings []map[string]interface{}) []map[string]interface
 				continue
 			}
 
-			// Check if the last booking has ended
+			// TO DO: CHANGE LOGIC TO LOOP THROUGH BOOKINGS AND CHECK IF ANY ROOM IS FREE
 			lastBooking := bookings[len(bookings)-1].(map[string]interface{})
 			endTime, err := time.Parse(time.RFC3339, lastBooking["end"].(string))
 			if err != nil {

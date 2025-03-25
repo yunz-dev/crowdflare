@@ -38,10 +38,7 @@
 
         const apiUrl = `/nearbyBuildings?lat=${latitude}&lng=${longitude}`;
 
-        htmx.ajax('GET', apiUrl, {
-          target: '#room-content',
-          swap: 'innerHTML'
-        });
+        htmx.ajax('GET', apiUrl, {target: '#room-content', swap: 'innerHTML'});
       }
 
       function showError(error) {
@@ -64,7 +61,7 @@
     <title>Crowdflare</title>
   </head>
   <body>
-    <div class="h-screen w-screen flex flex-col">
+    <div class="h-screen w-screen flex flex-col relative">
       {{template "navbar" .}}
       <div id="room-content"></div>
       <p id="location"></p>
