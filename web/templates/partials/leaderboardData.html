@@ -1,6 +1,6 @@
-<div id="leaderboard-content" class="mt-6 px-24">
+<div id="leaderboard-content" class="mt-6">
   <div class="grid grid-cols-3 gap-4 text-center">
-    {{ range $index, $user := .Users }}
+    {{ range $index, $user := . }}
     {{ if lt $index 3 }}  <!-- Only show the top 3 separately -->
     <div class="{{ if eq $index 1 }}bg-gray-200 p-4 rounded-lg border-2 border-black{{ else }}bg-gray-100 p-4 rounded-lg{{ end }}">
       <h2 class="text-lg font-bold">
@@ -17,7 +17,7 @@
   <div class="mt-6 bg-gray-50 p-4 rounded-lg">
     <h3 class="text-lg font-semibold">Other Contributors</h3>
     <div class="mt-2">
-      {{ range $index, $user := .Users }}
+      {{ range $index, $user := . }}
       {{ if ge $index 3 }}  <!-- Show users ranked 4th and below -->
       <div class="flex justify-between py-4 border-b">
         <span>{{ $user.Username }}</span>

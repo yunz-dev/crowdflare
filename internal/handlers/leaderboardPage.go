@@ -8,8 +8,15 @@ import (
 )
 func LeaderboardPage(w http.ResponseWriter, r *http.Request) {
 
-    tmpl := template.Must(template.ParseFiles("web/templates/leaderboardPage.html"))
-	tmpl.Execute(w, nil)
+	data := models.User{
+		Username: "John Doe",
+		Streak: 7,
+		FlareCount: 23,
+		Karma: 134,
+		KarmaHistory: []int{100, 102, 105, 108, 110, 112, 115, 117, 119, 121, 123, 124, 126, 128, 130, 132, 135, 137, 140, 142, 145, 147, 150, 153, 155, 158, 160, 163, 165, 167},
+	}
+    tmpl := template.Must(template.ParseFiles("web/templates/leaderboardPage.html", "web/templates/partials/navbar.html", "web/templates/partials/userStats.html"))
+	tmpl.Execute(w, data)
 
 }
 
@@ -19,9 +26,7 @@ func LeaderboardData(w http.ResponseWriter, r *http.Request) {
     if timeframe == "" {
         timeframe = "all" // Default value
     }
-	data := models.LeaderboardData{
-		CurrentUser: models.User{Username: ""},
-		Users: []models.User{
+	data := []models.User{
 			{
 				Username: "John Doe",
 				Karma: 100,
@@ -52,9 +57,9 @@ func LeaderboardData(w http.ResponseWriter, r *http.Request) {
 				Karma: 73,
 				KarmaHistory: []int{73, 75, 77, 80, 82, 84, 87, 89, 91, 93, 95, 97, 100, 102, 104, 106, 109, 111, 113, 115, 117, 119, 121, 123, 125, 128, 130, 132, 134, 136},
 			},
-		},
-	}
-	service.SliceDataByTime(&data, timeframe)
+		}
+	data = service.SliceDataByTime(data, timeframe)
+	
     tmpl := template.Must(template.ParseFiles("web/templates/partials/leaderboardData.html"))
     tmpl.Execute(w, data)
 }
