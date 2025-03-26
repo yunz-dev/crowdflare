@@ -26,16 +26,15 @@ func main() {
     http.HandleFunc("/heart", HeartHandler)
 
 
-  	http.HandleFunc("/register", handlers.RegisterHandler)
-	  http.HandleFunc("/login", handlers.LoginHandler)
-
   	http.HandleFunc("/protected", middleware.AuthMiddleware(func(w http.ResponseWriter, r *http.Request) {
 		user := r.Header.Get("X-User")
 		fmt.Fprintf(w, "Welcome, %s! You accessed a protected route.", user)
 	}))
 
     http.HandleFunc("/leaderboard", handlers.LeaderboardPage)
-
+  	http.HandleFunc("/login", handlers.LoginHandler(db.Client.Database("testdb")))
+  	http.HandleFunc("/register", handlers.RegisterHandler(db.Client.Database("testdb")))
+    http.HandleFunc("/nearbyBuildings", handlers.NearbyBuildings)
     http.HandleFunc("/", handlers.LandingPage)
     http.HandleFunc("/leaderboardData", handlers.LeaderboardData)
     http.HandleFunc("/app", handlers.AppPage)
@@ -43,6 +42,7 @@ func main() {
     http.HandleFunc("PUT /api/flare/upvote", handlers.UpvoteFlare)
     http.HandleFunc("PUT /api/flare/downvote", handlers.DownvoteFlare)
     http.HandleFunc("GET /api/flares", handlers.GetFlares)
+    http.HandleFunc("GET /component/flarepopup", handlers.FlarePopup)
 
     // Start the server
     fmt.Println("Starting server on :8080...")

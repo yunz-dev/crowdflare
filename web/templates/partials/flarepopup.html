@@ -1,0 +1,24 @@
+<div class="flare-popup" x-data="{upvotes: {{ .Upvotes }}, downvotes: {{ .Downvotes }}}">
+    <h1 class="text-lg">{{ .OwnerId }}</hi>
+        <h2>{{ .Rating }}/5</h2>
+    <div class="flex flex-row items-center justify-around">
+        <button
+            hx-put="/api/flare/upvote"
+            hx-vals='{"id": "{{ .ID }}"}'
+            hx-trigger="click once"
+            hx-swap="none"
+            @click.once="upvotes++">
+                <img src="/static/icons/upvote.svg" class="size-4">
+            </button>
+        <h3 x-text="upvotes"></h3>
+        <button
+            hx-put="/api/flare/downvote"
+            hx-vals='{"id": "{{ .ID }}"}'
+            hx-trigger="click once"
+            hx-swap="none"
+            @click.once="downvotes++">
+                <img src="/static/icons/downvote.svg" class="size-4">
+            </button>
+        <h3 x-text="downvotes"></h3>
+    </div>
+</div>

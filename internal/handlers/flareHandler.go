@@ -16,6 +16,11 @@ import (
 )
 
 func AddFlare(w http.ResponseWriter, r *http.Request) {
+    // username, ok := r.Context().Value("username").(string)
+    // if !ok {
+    //   username = "z123456"
+    // }
+    username := "z123456"
     err := r.ParseForm()
     if err != nil {
         w.WriteHeader(422)
@@ -55,7 +60,7 @@ func AddFlare(w http.ResponseWriter, r *http.Request) {
         Rating:    int(rating),
         Upvotes:   0,
         Downvotes: 0,
-        OwnerId:   "lol",
+        OwnerId:   username,
         Fired:     time.Now(),
     }
 
