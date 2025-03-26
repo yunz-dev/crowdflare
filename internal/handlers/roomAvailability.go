@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"html/template"
 	"net/http"
 	"github.com/yunz-dev/crowdflare/internal/services"
@@ -32,7 +31,6 @@ func NearbyBuildings(w http.ResponseWriter, r *http.Request) {
 	buildings := service.GetNearbyBuildings(lat, long, 1, data)
 	freeBuildings := service.GetFreeBuildings(buildings)
 
-	fmt.Println(freeBuildings)
 	// Render the template
 	tmpl := template.Must(template.ParseFiles("web/templates/partials/freeBuildings.html"))
 	tmpl.Execute(w, freeBuildings)

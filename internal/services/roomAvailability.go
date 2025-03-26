@@ -1,13 +1,13 @@
 package service
 
 import (
-	"fmt"
 	"bytes"
 	"encoding/json"
 	"io"
 	"net/http"
 	"sort"
 	"time"
+	"math"
 )
 
 func GetFullData() map[string]interface{} {
@@ -80,7 +80,6 @@ func GetFullData() map[string]interface{} {
 		}
 	}
 
-	fmt.Println(result)
 	return result
 }
 
@@ -113,7 +112,6 @@ func GetNearbyBuildings(lat float32, lng float32, distance float32, data map[str
 		nearbyBuildings = append(nearbyBuildings, buildingMap)
 	}
 
-	fmt.Println(nearbyBuildings)
 	return nearbyBuildings
 }
 
@@ -155,7 +153,7 @@ func GetFreeBuildings(buildings []map[string]interface{}) []map[string]interface
 
 		// Calculate "freeness" score
 		freeness := float64(freeRooms) / float64(totalRooms)
-		building["freeness"] = freeness
+		building["freeness"] = roundToSigFigs(freeness * 100, 2)
 
 		// Only add buildings that have at least one free room
 		if freeRooms > 0 {
@@ -164,4 +162,13 @@ func GetFreeBuildings(buildings []map[string]interface{}) []map[string]interface
 	}
 
 	return freeBuildings
+}
+
+func roundToSigFigs(val float64, sigFigs int) float64 {
+	if val == 0 {
+		return 0
+	}
+	digits := math.Floor(math.Log10(math.Abs(val))) + 1
+	roundFactor := math.Pow(10, float64(sigFigs)-digits)
+	return math.Round(val*roundFactor) / roundFactor
 }
