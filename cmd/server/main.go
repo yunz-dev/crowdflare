@@ -34,7 +34,7 @@ func main() {
     http.HandleFunc("/leaderboard", handlers.LeaderboardPage)
   	http.HandleFunc("/login", handlers.LoginHandler(db.Client.Database("testdb")))
   	http.HandleFunc("/register", handlers.RegisterHandler(db.Client.Database("testdb")))
-
+    http.HandleFunc("/nearbyBuildings", handlers.NearbyBuildings)
     http.HandleFunc("/", handlers.LandingPage)
     http.HandleFunc("/leaderboardData", handlers.LeaderboardData)
     http.HandleFunc("/app", handlers.AppPage)
