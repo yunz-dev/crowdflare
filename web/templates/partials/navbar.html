@@ -30,7 +30,7 @@
         </li>
         <li>
           <a
-            href="/map"
+            href="/app"
             hx-push-url="true"
             class="py-2 block text-lg transition-transform duration-200 hover:-translate-y-0.5"
           >
@@ -90,9 +90,10 @@
         <a href="/" hx-push-url="true" class="hover:bg-gray-100 px-6 py-2 transition-all duration-300 hover:font-bold">
           Home
         </a>
-      </a>
-      <a>
-        <a href="/map" hx-push-url="true" class="hover:bg-gray-100 px-6 py-2 transition-all duration-300 hover:font-bold">
+
+      </li>
+      <li>
+        <a href="/app" hx-push-url="true" class="text-gray-600 py-2 text-lg transition-all duration-300 hover:-translate-y-1 hover:font-bold">
           Live Map
         </a>
       </a>
@@ -115,9 +116,10 @@
   <!-- Login/Signup Modal -->
   <div
     x-show="open"
-    class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+    style="display: none"
+    class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-40"
   >
-    <div class="bg-white p-6 rounded-lg shadow-lg w-96 relative">
+    <div @click.outside="open = false" class="bg-white p-6 rounded-lg shadow-lg w-96 relative">
       <div class="flex flex-col gap-3 p-5">
         <h1 class="text-2xl text-center font-bold">CrowdFlare</h1>
         <p class="text-md text-center">Track campus crowds in real time</p>
