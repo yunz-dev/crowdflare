@@ -33,37 +33,37 @@ map.on("click", (e) => {
 //   { id: "5", lat: -33.91751371612105, lng: 151.23352171604117 },
 // ];
 icons = {
-    0: L.icon({
-          iconUrl: "/static/icons/map-marker-0.svg",
-            iconSize: [40, 40],
-            popupAnchor: [0, -20]
-        }),
-    1: L.icon({
-          iconUrl: "/static/icons/map-marker-1.svg",
-            iconSize: [40, 40],
-            popupAnchor: [0, -20]
-        }),
-    2: L.icon({
-          iconUrl: "/static/icons/map-marker-2.svg",
-            iconSize: [40, 40],
-            popupAnchor: [0, -20]
-        }),
-    3: L.icon({
-          iconUrl: "/static/icons/map-marker-3.svg",
-            iconSize: [40, 40],
-            popupAnchor: [0, -20]
-        }),
-    4: L.icon({
-          iconUrl: "/static/icons/map-marker-4.svg",
-            iconSize: [40, 40],
-            popupAnchor: [0, -20]
-        }),
-    5: L.icon({
-          iconUrl: "/static/icons/map-marker-5.svg",
-            iconSize: [40, 40],
-            popupAnchor: [0, -20]
-        }),
-}
+  0: L.icon({
+    iconUrl: "/static/icons/map-marker-0.svg",
+    iconSize: [40, 40],
+    popupAnchor: [0, -20],
+  }),
+  1: L.icon({
+    iconUrl: "/static/icons/map-marker-1.svg",
+    iconSize: [40, 40],
+    popupAnchor: [0, -20],
+  }),
+  2: L.icon({
+    iconUrl: "/static/icons/map-marker-2.svg",
+    iconSize: [40, 40],
+    popupAnchor: [0, -20],
+  }),
+  3: L.icon({
+    iconUrl: "/static/icons/map-marker-3.svg",
+    iconSize: [40, 40],
+    popupAnchor: [0, -20],
+  }),
+  4: L.icon({
+    iconUrl: "/static/icons/map-marker-4.svg",
+    iconSize: [40, 40],
+    popupAnchor: [0, -20],
+  }),
+  5: L.icon({
+    iconUrl: "/static/icons/map-marker-5.svg",
+    iconSize: [40, 40],
+    popupAnchor: [0, -20],
+  }),
+};
 
 fetch("/api/flares")
   .then((response) => response.json())
@@ -74,31 +74,17 @@ fetch("/api/flares")
     for (const flare of json) {
       let marker = L.marker([flare.Lat, flare.Lng], {
         bubblingMouseEvents: false,
-        icon: icons[flare.Rating]
+        icon: icons[flare.Rating],
       });
       marker.addTo(map);
       popup = L.popup(null, { maxWidth: 800 });
       popup.setContent(
         `
-        <div class="flare-popup" x-data="{upvotes: ${flare.Upvotes}, downvotes: ${flare.Downvotes}}">
-            <h1 class="text-lg">${flare.OwnerId}</hi>
-            <h2>${flare.Rating}/5</h2>
-            <div class="flex flex-row items-center justify-around">
-                <button
-                    hx-put="/api/flare/upvote"
-                    hx-vals='{"id": "${flare.ID}"}'
-                    hx-trigger="click once"
-                    hx-swap="none"
-                    @click.once="upvotes++">⬆️</button>
-                <h3 x-text="upvotes"></h3>
-                <button
-                    hx-put="/api/flare/downvote"
-                    hx-vals='{"id": "${flare.ID}"}'
-                    hx-trigger="click once"
-                    hx-swap="none"
-                    @click.once="downvotes++">⬇️</button>
-                <h3 x-text="downvotes"></h3>
-            </div>
+        <div class="flare-popup"
+        hx-trigger="load"
+        hx-swap="outerHTML"
+        hx-get="/component/flarepopup"
+        hx-vals='{"id": "${flare.ID}"}'>
         </div>
         `,
       );
