@@ -47,13 +47,13 @@
           </a>
         </li>
         <li>
-          <button
-            @click="open = true; mode = 'login'"
-            class="bg-gray-600 px-4 py-2 rounded-md hover:bg-gray-700 text-gray-100 transition"
-          >
-            Login
-          </button>
-        </li>
+<button
+  x-data="{ isLoggedIn: document.cookie.includes('token=') }"
+  @click="isLoggedIn ? logout() : (open = true, mode = 'login')"
+  class="bg-gray-600 px-4 py-2 rounded-md hover:bg-gray-700 text-gray-100 transition"
+>
+  <span x-text="isLoggedIn ? 'Logout' : 'Login'"></span>
+</button>        </li>
       </ul>
     </nav>
 
@@ -73,12 +73,14 @@
       <svg xmlns="http://www.w3.org/2000/svg" height="30" width="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
     </button> -->
     <ul class="flex flex-col rounded-xl gap-5 bg-white text-white p-5 duration-300 border border-gray-300">
-      <li>
-        <a @click="open = true; mode = 'login'; openMobile = false" class="text-gray-600 py-2 text-lg cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:font-bold">
-          Login
-        </a>
-      </li>
-      <li>
+<li>
+  <a
+    x-data="{ isLoggedIn: document.cookie.includes('token=') }"
+    @click="isLoggedIn ? logout() : (open = true, mode = 'login', openMobile = false)"
+    class="text-gray-600 py-2 text-lg cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:font-bold"
+    x-text="isLoggedIn ? 'Logout' : 'Login'">
+  </a>
+</li>      <li>
         <a href="/" hx-push-url="true" class="text-gray-600 py-2 text-lg transition-all duration-300 hover:-translate-y-1 hover:font-bold">
           Home
         </a>
@@ -122,72 +124,105 @@
         <svg xmlns="http://www.w3.org/2000/svg" height="30" width="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
       </button>
 
-      <!-- Login/Signup Form -->
-      <form x-show="mode === 'login'" x-data="{ zid: '', password: '', confirmPassword: '' }" action="/login">
-        <div class="mb-4">
-          <label class="block text-gray-700">zID</label>
-          <input x-model="zid" class="w-full border px-3 py-2 rounded-lg" required>
-        </div>
-        <div class="mb-4">
-          <label class="block text-gray-700">Password</label>
-          <input type="password" x-model="password" class="w-full border px-3 py-2 rounded-lg" required>
-        </div>
-
-        <!-- Submit -->
-        <button type="submit"
-          class="w-full text-gray-100 bg-gray-600 py-2 rounded-lg hover:bg-gray-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
-          <span>Login</span>
-        </button>
-        <span class="block mt-4 text-gray-500">Don't have an account?
-          <button @click="mode = 'signup'" class="hover:underline text-gray-700">Sign up</button>
-        </span>
-      </form>
-
-      <!-- Signup Form -->
-      <form x-show="mode === 'signup'" x-data="{ zid: '', password: '', confirmPassword: '' }" action="/register">
-        <div class="mb-4">
-          <label class="block text-gray-700">zID</label>
-          <input
-            x-model="zid"
-            class="w-full border px-3 py-2 rounded-lg"
-            required
-          />
-        </div>
-        <div class="mb-4">
-          <label class="block text-gray-700">Password</label>
-          <input
-            type="password"
-            x-model="password"
-            class="w-full border px-3 py-2 rounded-lg"
-            required
-          />
-        </div>
-
-        <!-- Confirm Password for Signup -->
-        <div class="mb-4">
-          <label class="block text-gray-700">Confirm Password</label>
-          <input
-            type="password"
-            x-model="confirmPassword"
-            class="w-full border px-3 py-2 rounded-lg"
-            required
-          />
-        </div>
-
-        <!-- Submit -->
-        <button
-          type="submit"
-          class="w-full text-gray-100 bg-gray-600 py-2 rounded-lg hover:bg-gray-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
-          :disabled="password !== confirmPassword">
-          <span>Sign Up</span>
-        </button>
-        <span class="block mt-4 text-gray-500">Already have an account?
-          <button @click="mode = 'login'" class="hover:underline text-gray-900">Login</button>
-        </span>
-      </form>
-
-
-    </div>
+<!-- Login Form -->
+<form x-show="mode === 'login'" x-data="auth()" @submit.prevent="login">
+  <div class="mb-4">
+    <label class="block text-gray-700">zID</label>
+    <input x-model="zid" name="username" class="w-full border px-3 py-2 rounded-lg" required>
   </div>
+  <div class="mb-4">
+    <label class="block text-gray-700">Password</label>
+    <input type="password" x-model="password" name="password" class="w-full border px-3 py-2 rounded-lg" required>
+  </div>
+
+  <!-- Submit -->
+  <button type="submit"
+    class="w-full text-gray-100 bg-gray-600 py-2 rounded-lg hover:bg-gray-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
+    <span>Login</span>
+  </button>
+  <span class="block mt-4 text-gray-500">Don't have an account?
+    <button @click="mode = 'signup'" class="hover:underline text-gray-700">Sign up</button>
+  </span>
+</form>
+
+<!-- Signup Form -->
+<form x-show="mode === 'signup'" x-data="auth()" @submit.prevent="register">
+  <div class="mb-4">
+    <label class="block text-gray-700">zID</label>
+    <input x-model="zid" name="username" class="w-full border px-3 py-2 rounded-lg" required>
+  </div>
+  <div class="mb-4">
+    <label class="block text-gray-700">Password</label>
+    <input type="password" x-model="password" name="password" class="w-full border px-3 py-2 rounded-lg" required>
+  </div>
+  <div class="mb-4">
+    <label class="block text-gray-700">Confirm Password</label>
+    <input type="password" x-model="confirmPassword" class="w-full border px-3 py-2 rounded-lg" required>
+  </div>
+
+  <!-- Submit -->
+  <button type="submit"
+    class="w-full text-gray-100 bg-gray-600 py-2 rounded-lg hover:bg-gray-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+    :disabled="password !== confirmPassword">
+    <span>Sign Up</span>
+  </button>
+  <span class="block mt-4 text-gray-500">Already have an account?
+    <button @click="mode = 'login'" class="hover:underline text-gray-900">Login</button>
+  </span>
+</form>
+
+<!-- JavaScript Logic -->
+<script>
+  function auth() {
+    return {
+      zid: '',
+      password: '',
+      confirmPassword: '',
+
+      async register() {
+        if (this.password !== this.confirmPassword) {
+          alert("Passwords do not match");
+          return;
+        }
+
+        let response = await fetch('http://localhost:8080/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: this.zid, password: this.password })
+        });
+
+        if (response.ok) {
+          alert("Registration successful, please login.");
+          mode = 'login'; // Switch to login mode
+        } else {
+          alert("Registration failed.");
+        }
+      },
+
+      async login() {
+        let response = await fetch('http://localhost:8080/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: this.zid, password: this.password })
+        });
+
+        if (response.ok) {
+          let data = await response.json();
+          document.cookie = `token=${data.token}; path=/; Secure; SameSite=Strict`;
+          console.log(data.token)
+          window.location.href = "/app"; // Redirect on success
+        } else {
+          alert("Invalid credentials");
+        }
+      }
+    }
+  }
+
+    function logout() {
+    document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; SameSite=Strict";
+    location.reload(); // Refresh to update UI state
+  }
+</script>
+
 </header>
 {{end}}
